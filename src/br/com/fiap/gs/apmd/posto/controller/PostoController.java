@@ -1,5 +1,6 @@
 package br.com.fiap.gs.apmd.posto.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import br.com.fiap.gs.apmd.posto.model.Posto;
@@ -7,41 +8,46 @@ import br.com.fiap.gs.apmd.posto.view.Janela;
 
 public class PostoController {
 
-	PostoDAO filmeDAO;
+	PostoDAO postoDAO;
 	Janela view;
 	
 	public PostoController(Janela view) {
-		filmeDAO = new PostoDAO();
+		postoDAO = new PostoDAO();
 		this.view = view;
 	}
 	
 
 	public void mockarDadosIniciais() {
 		Posto f = new Posto();
-		f.setTitulo("Wanda Vision");
-		f.setAssistido(true);
-		f.setGenero("Comedia");
-		f.setOndeAssistir("Prime Video");
+		f.setNomeMarca("Shell");
+		f.setLogradouro("R. Dr. Martinho da Vila");
+		f.setNumero("62A");
+		f.setEstado("SP");
+		f.setCidade("Queluz");
 		f.setAvaliacao(5);
+		f.setPrecoKWh(100.5);
+		f.setTiposPlug(Arrays.asList("tipo1","tipo2","CSS2","CHAdeMO"));
 	
-		filmeDAO.inserir(f);
+		postoDAO.inserir(f);
 		
 	}
 
 	public List<Posto> listarTodos() {
-		return filmeDAO.listarTodos();
+		return postoDAO.listarTodos();
 	}
 
-	public void salvarFilme(String titulo, String sinopse, String genero, String ondeAssistiu, boolean assistido, int avaliacao) {
+	public void salvarFilme(String nomeMarca, String logradouro, String numero, String estado, String cidade, double precoKWh, int avaliacao, String[] tiposPlug) {
 		Posto f = new Posto();
-		f.setTitulo(titulo);
-		f.setSinopse(sinopse);
-		f.setAssistido(assistido);
-		f.setGenero(genero);
-		f.setOndeAssistir(ondeAssistiu);
+		f.setNomeMarca(nomeMarca);
+		f.setLogradouro(logradouro);
+		f.setNumero(numero);
+		f.setEstado(estado);
+		f.setCidade(cidade);
 		f.setAvaliacao(avaliacao);
+		f.setPrecoKWh(precoKWh);
+		f.setTiposPlug(Arrays.asList(tiposPlug));
 		
-		filmeDAO.inserir(f);
+		postoDAO.inserir(f);
 		view.getPainelListagem().atualizarDados();
 	}
 	
@@ -49,7 +55,7 @@ public class PostoController {
 		Posto f = new Posto();
 		f.setId(id);
 		
-		filmeDAO.apagar(f);
+		postoDAO.apagar(f);
 		view.getPainelListagem().atualizarDados();
 	}
 
