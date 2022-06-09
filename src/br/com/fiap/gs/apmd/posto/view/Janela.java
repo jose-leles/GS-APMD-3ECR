@@ -17,7 +17,7 @@ public class Janela extends JFrame{
 	private PainelListagem painelListagem = new PainelListagem(postoController);
 	
 	public Janela() {
-		setSize(800, 400);
+		setSize(800, 420);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		

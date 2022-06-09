@@ -1,5 +1,6 @@
 package br.com.fiap.gs.apmd.posto.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -19,7 +20,7 @@ public class Posto {
 	private String estado;
 	private String cidade;
 	private int avaliacao;
-	private List<String> tiposPlug;
+	private String tiposPlug;
 	private double precoKWh;
 	
 	
@@ -33,7 +34,7 @@ public class Posto {
 		data.add(estado);
 		data.add(cidade);
 		data.add(avaliacao+"");
-		data.add(String.join(", ",tiposPlug)+"");
+		data.add(tiposPlug);
 		data.add(precoKWh+"");
 		
 		return data;
@@ -57,8 +58,8 @@ public class Posto {
 	public String getCidade() { return cidade; }
 	public void setCidade(String cidade) { this.cidade = cidade; }
 
-	public List<String> getTiposPlug() { return tiposPlug; }
-	public void setTiposPlug(List<String> tiposPlug) { this.tiposPlug = tiposPlug; }
+	public List<String> getTiposPlug() { return Arrays.asList(tiposPlug.split(", ")); }
+	public void setTiposPlug(List<String> tiposPlug) { this.tiposPlug = String.join(", ", tiposPlug); }
 	
 	public double getPrecoKWh() { return precoKWh; }
 	public void setPrecoKWh(double precoKWh) { this.precoKWh = precoKWh; }

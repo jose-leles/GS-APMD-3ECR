@@ -11,7 +11,7 @@ import br.com.fiap.gs.apmd.posto.model.Posto;
 
 public class PostoDAO {
 
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("locadora");
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("posto");
 	EntityManager manager = factory.createEntityManager();
 	
 	public void inserir(Posto posto) {
