@@ -45,7 +45,7 @@ public class PainelListagem extends JPanel {
 			int option = JOptionPane.showConfirmDialog(null, "Certeza que deseja apagar?");
 			if(option == JOptionPane.YES_OPTION) {
 				String id = (String) tabela.getValueAt(tabela.getSelectedRow(), 0);
-				postoController.apagarFilme(Long.parseLong(id,10));				
+				postoController.apagarPosto(Long.parseLong(id,10));				
 			}
 		});
 		this.add(btnApagar);

@@ -3,6 +3,9 @@ package br.com.fiap.gs.apmd.posto.view;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -38,6 +41,9 @@ public class PainelCadastroEdicao extends JPanel {
 
 	private DefaultLabel lblStarRatingLabel = new DefaultLabel("Avaliação:");
 	StarRater starRatingField = new StarRater(5);
+	
+	private DefaultLabel lblPreco = new DefaultLabel("Preco por kW/h:");
+	private DefaultTextField txtPreco = new DefaultTextField();
 	
 	JCheckBox[] jCheckboxsTipoPlug = new JCheckBox[] {
 		new JCheckBox("tipo1"),
@@ -182,10 +188,24 @@ public class PainelCadastroEdicao extends JPanel {
         	jCheckboxsTipoPlug[i].setFont(new Font("Arial", Font.BOLD, 15));
         	this.add(jCheckboxsTipoPlug[i]);
         }
+        
         int lastIndex = jCheckboxsTipoPlug.length-1; 
-        lblStarRatingLabel.setBounds(
+        lblPreco.setBounds(
         		jCheckboxsTipoPlug[lastIndex].getX(),
         		jCheckboxsTipoPlug[lastIndex].getY() + jCheckboxsTipoPlug[lastIndex].getHeight() + 20,
+				200,
+				15);
+		this.add(lblPreco);
+		txtPreco.setBounds(
+				lblPreco.getX(),
+				lblPreco.getY()+lblPreco.getHeight()+10,
+				100,
+				29);
+		this.add(txtPreco);
+		
+        lblStarRatingLabel.setBounds(
+        		txtPreco.getX(),
+        		txtPreco.getY()+txtPreco.getHeight()+15,
 				150,
 				15);
         this.add(lblStarRatingLabel);
@@ -196,40 +216,59 @@ public class PainelCadastroEdicao extends JPanel {
 				150,
 				15);
         this.add(starRatingField);
+        
+        
 
 
 		btnSalvar.addActionListener((ActionEvent e)->{
-//			boolean invalido = txtNomePosto.getText().equalsIgnoreCase("");
-//			invalido = invalido || txtLogradouro.getText().equalsIgnoreCase("");
-//			invalido = invalido || ((String)cbEstado.getSelectedItem()).equalsIgnoreCase("");
-//			invalido = invalido || !( jRadioGenero1.isSelected() 
-//					|| jRadioGenero2.isSelected() 
-//					|| jRadioGenero3.isSelected());
-//			invalido = invalido || starRatingField.getSelection() == 0;
-//			
-//			if(invalido) {
-//				JOptionPane.showMessageDialog(null, "Preencha todos os campos");
-//				return;
-//			}
-//			filmeController.salvarFilme(
-//					txtTitulo.getText(),
-//					txtLogradouro.getText().trim(),
-//					(String)cbEstado.getSelectedItem(),
-//					jRadioGenero1.isSelected() ? jRadioGenero1.getText()
-//							: jRadioGenero2.isSelected() ? jRadioGenero2.getText()
-//							: jRadioGenero3.isSelected() ? jRadioGenero3.getText() 
-//							: "Nenhum",
-//					assistido.isSelected(),
-//					starRatingField.getSelection()
-//					);	
+			boolean invalido = txtNomePosto.getText().equalsIgnoreCase("");
+			invalido = invalido || txtLogradouro.getText().equalsIgnoreCase("");
+			invalido = invalido || txtNumero.getText().equalsIgnoreCase("");
+			invalido = invalido || ((String)cbEstado.getSelectedItem()).equalsIgnoreCase("");
+			invalido = invalido || txtCidade.getText().equalsIgnoreCase("");
+			invalido = invalido || txtPreco.getText().equalsIgnoreCase("") || txtPreco.getText().contains(",");
+			boolean algumCheckbox = false;
+			List<String> tiposSelecionados = new ArrayList<String>();
+			for(JCheckBox jc : jCheckboxsTipoPlug) {
+				if(jc.isSelected()) {
+					algumCheckbox = true;
+					tiposSelecionados.add(jc.getText());
+				}
+			}
+			invalido = invalido || !algumCheckbox;
+			invalido = invalido || starRatingField.getSelection() == 0;
+			
+			if(invalido) {
+				JOptionPane.showMessageDialog(null, "Preencha todos os campos, não utilize \",\"(virgula) e/ou caracteres no preco");
+				return;
+			}
+			
+			//nomeMarca, logradouro, numero, estado, cidade, precoKWh, avaliacao, tiposPlug
+			String[] tiposArray = Arrays.copyOf(
+					tiposSelecionados.toArray(), tiposSelecionados.size(), String[].class);
+			filmeController.salvarPosto(
+					txtNomePosto.getText().trim(),
+					txtLogradouro.getText().trim(),
+					txtNumero.getText().trim(),
+					(String)cbEstado.getSelectedItem(),
+					txtCidade.getText().trim(),
+					Double.parseDouble(txtPreco.getText().trim()),
+					starRatingField.getSelection(),
+					tiposArray
+					);	
 		});
 		btnCancelar.addActionListener((ActionEvent e)->{
 			txtNomePosto.setText("");
 			txtLogradouro.setText("");
+			txtNumero.setText("");
 			cbEstado.setSelectedIndex(0);
+			txtCidade.setText("");
 			generoGroup.clearSelection();
 			starRatingField.setSelection(0);
-//			assistido.setSelected(false);
+			txtPreco.setText("");
+			for(JCheckBox jc : jCheckboxsTipoPlug) {
+				jc.setSelected(false);
+			}
 		});
 		setVisible(true);
 	}

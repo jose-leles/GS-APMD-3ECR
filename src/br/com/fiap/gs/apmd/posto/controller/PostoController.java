@@ -36,7 +36,7 @@ public class PostoController {
 		return postoDAO.listarTodos();
 	}
 
-	public void salvarFilme(String nomeMarca, String logradouro, String numero, String estado, String cidade, double precoKWh, int avaliacao, String[] tiposPlug) {
+	public void salvarPosto(String nomeMarca, String logradouro, String numero, String estado, String cidade, double precoKWh, int avaliacao, String[] tiposPlug) {
 		Posto f = new Posto();
 		f.setNomeMarca(nomeMarca);
 		f.setLogradouro(logradouro);
@@ -51,7 +51,7 @@ public class PostoController {
 		view.getPainelListagem().atualizarDados();
 	}
 	
-	public void apagarFilme(Long id) {
+	public void apagarPosto(Long id) {
 		Posto f = new Posto();
 		f.setId(id);
 		
