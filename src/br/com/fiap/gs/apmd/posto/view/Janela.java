@@ -34,6 +34,8 @@ public class Janela extends JFrame{
 		
 		add(abas);
 		
+		setTitle("CRUD Posto - Java Swing");
+		
 		setVisible(true);
 	}
 
